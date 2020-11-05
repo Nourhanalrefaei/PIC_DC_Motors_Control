@@ -20,8 +20,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [c E3070 0 1 .. ]
 [n E3070 . LED_OFF LED_ON  ]
 [p mainexit ]
-"32
-[; ;application.c: 32:     button_initialize(&btn1);
+"33
+[; ;application.c: 33:     button_initialize(&btn1);
 [c E3006 0 1 .. ]
 [n E3006 . R_NOK R_OK  ]
 "23 ./ecu/button/ecu_button.h
@@ -36,13 +36,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 "41 ./ecu/led/ecu_led.h
 [; ;./ecu/led/ecu_led.h: 41: ret_status led_turn_on(led_t *led);
 [v _led_turn_on `(E3006 ~T0 @X0 0 ef1`*S305 ]
+"49
+[; ;./ecu/led/ecu_led.h: 49: ret_status led_turn_off(led_t *led);
+[v _led_turn_off `(E3006 ~T0 @X0 0 ef1`*S305 ]
 [v F2991 `(v ~T0 @X0 1 tf1`ul ]
 "203 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC18F-K_DFP/1.4.87/xc8\pic\include\pic18.h
 [v __delay `JF2991 ~T0 @X0 0 e ]
 [p i __delay ]
-"49 ./ecu/led/ecu_led.h
-[; ;./ecu/led/ecu_led.h: 49: ret_status led_turn_off(led_t *led);
-[v _led_turn_off `(E3006 ~T0 @X0 0 ef1`*S305 ]
 "54 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC18F-K_DFP/1.4.87/xc8\pic\include\proc\pic18f46k20.h
 [; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC18F-K_DFP/1.4.87/xc8\pic\include\proc\pic18f46k20.h: 54: __asm("SSPMSK equ 0F77h");
 [; <" SSPMSK equ 0F77h ;# ">
@@ -563,39 +563,44 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _btn_status `uc ~T0 @X0 1 a ]
 [e = _btn_status -> -> 0 `i `uc ]
 "31
-[; ;application.c: 31:    uint8_t seq_len=8;
+[; ;application.c: 31:    uint8_t i=0;
+[v _i `uc ~T0 @X0 1 a ]
+[e = _i -> -> 0 `i `uc ]
+"32
+[; ;application.c: 32:    uint8_t seq_len=8;
 [v _seq_len `uc ~T0 @X0 1 a ]
 [e = _seq_len -> -> 8 `i `uc ]
-"32
-[; ;application.c: 32:     button_initialize(&btn1);
-[e ( _button_initialize (1 &U _btn1 ]
 "33
-[; ;application.c: 33:     for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
+[; ;application.c: 33:     button_initialize(&btn1);
+[e ( _button_initialize (1 &U _btn1 ]
+"34
+[; ;application.c: 34:     for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
 {
 [e = _l_led_counter -> -> 0 `i `uc ]
 [e $U 311  ]
 [e :U 308 ]
 {
-"34
-[; ;application.c: 34:        led_initialize(&led_array[l_led_counter]);
-[e ( _led_initialize (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
 "35
-[; ;application.c: 35:    }
+[; ;application.c: 35:        led_initialize(&led_array[l_led_counter]);
+[e ( _led_initialize (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
+"36
+[; ;application.c: 36:    }
 }
 [e ++ _l_led_counter -> -> 1 `i `uc ]
 [e :U 311 ]
 [e $ < -> _l_led_counter `i -> _seq_len `i 308  ]
 [e :U 309 ]
 }
-"36
-[; ;application.c: 36:     while(1){
+"37
+[; ;application.c: 37:     while(1){
 [e :U 313 ]
 {
 "38
-[; ;application.c: 38:    for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
+[; ;application.c: 38:    for(l_led_counter=0;l_led_counter<6;l_led_counter++){
 {
 [e = _l_led_counter -> -> 0 `i `uc ]
-[e $U 318  ]
+[e $ < -> _l_led_counter `i -> 6 `i 315  ]
+[e $U 316  ]
 [e :U 315 ]
 {
 "39
@@ -603,67 +608,118 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _button_get_status (2 , &U _btn1 -> &U _btn_status `*E3087 ]
 "40
 [; ;application.c: 40:        if(btn_status==BUTTON_PRESSED){
-[e $ ! == -> _btn_status `i -> . `E3087 1 `i 319  ]
+[e $ ! == -> _btn_status `i -> . `E3087 1 `i 318  ]
 {
 "41
-[; ;application.c: 41:        for(press_count=0;press_count<=l_led_counter;press_count++){
+[; ;application.c: 41:            if(l_led_counter==4){
+[e $ ! == -> _l_led_counter `i -> 4 `i 319  ]
 {
-[e = _press_count -> -> 0 `i `uc ]
-[e $U 323  ]
+"42
+[; ;application.c: 42:               for(i=0;i<4;i++){
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 4 `i 320  ]
+[e $U 321  ]
 [e :U 320 ]
 {
 "43
-[; ;application.c: 43:                led_turn_on(&led_array[l_led_counter]);
-[e ( _led_turn_on (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
+[; ;application.c: 43:                   led_turn_on(&led_array[i]);
+[e ( _led_turn_on (1 &U *U + &U _led_array * -> _i `ux -> -> # *U &U _led_array `ui `ux ]
 "44
-[; ;application.c: 44:                _delay((unsigned long)((500)*(8000000UL/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
-"45
-[; ;application.c: 45:                led_turn_off(&led_array[l_led_counter]);
-[e ( _led_turn_off (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
-"46
-[; ;application.c: 46:                _delay((unsigned long)((500)*(8000000UL/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
-"48
-[; ;application.c: 48:            }
+[; ;application.c: 44:               }
 }
-[e ++ _press_count -> -> 1 `i `uc ]
-[e :U 323 ]
-[e $ <= -> _press_count `i -> _l_led_counter `i 320  ]
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 4 `i 320  ]
 [e :U 321 ]
 }
-"49
-[; ;application.c: 49:             }else{
+"46
+[; ;application.c: 46:            }
 }
-[e $U 324  ]
 [e :U 319 ]
+"47
+[; ;application.c: 47:            if(l_led_counter==5){
+[e $ ! == -> _l_led_counter `i -> 5 `i 323  ]
 {
-"50
-[; ;application.c: 50:            led_turn_off(&led_array[l_led_counter]);
-[e ( _led_turn_off (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
-"51
-[; ;application.c: 51:             }
-}
+"48
+[; ;application.c: 48:               for(i=0;i<4;i++){
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 4 `i 324  ]
+[e $U 325  ]
 [e :U 324 ]
+{
+"49
+[; ;application.c: 49:                   led_turn_off(&led_array[i]);
+[e ( _led_turn_off (1 &U *U + &U _led_array * -> _i `ux -> -> # *U &U _led_array `ui `ux ]
+"50
+[; ;application.c: 50:               }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 4 `i 324  ]
+[e :U 325 ]
+}
 "52
-[; ;application.c: 52:         }
+[; ;application.c: 52:            }
+}
+[e :U 323 ]
+"54
+[; ;application.c: 54:        for(press_count=0;press_count<=l_led_counter;press_count++){
+{
+[e = _press_count -> -> 0 `i `uc ]
+[e $U 330  ]
+[e :U 327 ]
+{
+"55
+[; ;application.c: 55:                led_turn_on(&led_array[l_led_counter]);
+[e ( _led_turn_on (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
+"56
+[; ;application.c: 56:                _delay((unsigned long)((250)*(8000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
+"57
+[; ;application.c: 57:                led_turn_off(&led_array[l_led_counter]);
+[e ( _led_turn_off (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
+"58
+[; ;application.c: 58:                _delay((unsigned long)((250)*(8000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
+"60
+[; ;application.c: 60:            }
+}
+[e ++ _press_count -> -> 1 `i `uc ]
+[e :U 330 ]
+[e $ <= -> _press_count `i -> _l_led_counter `i 327  ]
+[e :U 328 ]
+}
+"61
+[; ;application.c: 61:             }else{
+}
+[e $U 331  ]
+[e :U 318 ]
+{
+"62
+[; ;application.c: 62:             l_led_counter--;
+[e -- _l_led_counter -> -> 1 `i `uc ]
+"63
+[; ;application.c: 63:             }
+}
+[e :U 331 ]
+"64
+[; ;application.c: 64:         }
 }
 [e ++ _l_led_counter -> -> 1 `i `uc ]
-[e :U 318 ]
-[e $ < -> _l_led_counter `i -> _seq_len `i 315  ]
+[e $ < -> _l_led_counter `i -> 6 `i 315  ]
 [e :U 316 ]
 }
-"54
-[; ;application.c: 54:     }
+"66
+[; ;application.c: 66:     }
 }
 [e :U 312 ]
 [e $U 313  ]
 [e :U 314 ]
-"55
-[; ;application.c: 55:     return (0);
+"67
+[; ;application.c: 67:     return (0);
 [e ) -> 0 `i ]
 [e $UE 307  ]
-"56
-[; ;application.c: 56: }
+"68
+[; ;application.c: 68: }
 [e :UE 307 ]
 }

@@ -99,7 +99,7 @@ BUTTON_PRESSED 1
 LED_OFF 0
 LED_ON 1
 ]
-"32
+"33
 [e E3006 . `uc
 R_NOK 0
 R_OK 1
@@ -237,14 +237,16 @@ PIN_HIGH 1
 [v _main main `(i  1 e 2 0 ]
 {
 "29
-[v main@l_led_counter l_led_counter `uc  1 a 1 20 ]
+[v main@l_led_counter l_led_counter `uc  1 a 1 21 ]
+"31
+[v main@i i `uc  1 a 1 20 ]
 "30
 [v main@btn_status btn_status `uc  1 a 1 19 ]
-"31
-[v main@seq_len seq_len `uc  1 a 1 18 ]
 "28
-[v main@press_count press_count `uc  1 a 1 17 ]
-"56
+[v main@press_count press_count `uc  1 a 1 18 ]
+"32
+[v main@seq_len seq_len `uc  1 a 1 17 ]
+"68
 } 0
 "35 G:\Embeded_Projects\Application2.X\ecu/led/ecu_led.c
 [v _led_turn_on led_turn_on `(E13  1 e 1 0 ]

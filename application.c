@@ -28,29 +28,41 @@ int main() {
    uint8_t press_count=ZERO_INIT;
    uint8_t l_led_counter=ZERO_INIT;
    uint8_t btn_status=ZERO_INIT;
+   uint8_t i=ZERO_INIT;
    uint8_t seq_len=8;
     button_initialize(&btn1);
     for(l_led_counter=ZERO_INIT;l_led_counter<seq_len;l_led_counter++){
        led_initialize(&led_array[l_led_counter]);
    }
     while(1){
-   
-   for(l_led_counter=ZERO_INIT;l_led_counter<seq_len;l_led_counter++){
+   for(l_led_counter=ZERO_INIT;l_led_counter<6;l_led_counter++){
        button_get_status(&btn1,&btn_status);
        if(btn_status==BUTTON_PRESSED){
+           if(l_led_counter==4){
+              for(i=ZERO_INIT;i<4;i++){
+                  led_turn_on(&led_array[i]);
+              }     
+              
+           }
+           if(l_led_counter==5){
+              for(i=ZERO_INIT;i<4;i++){
+                  led_turn_off(&led_array[i]);
+              }
+              
+           }
+           
        for(press_count=ZERO_INIT;press_count<=l_led_counter;press_count++){
-               
                led_turn_on(&led_array[l_led_counter]);
-               __delay_ms(500);
+               __delay_ms(250);
                led_turn_off(&led_array[l_led_counter]);
-               __delay_ms(500);
-               
+               __delay_ms(250);
+           
            }
             }else{
-           led_turn_off(&led_array[l_led_counter]);
+            l_led_counter--;
             }
         }
-       
+   
     }
     return (EXIT_SUCCESS);
 }

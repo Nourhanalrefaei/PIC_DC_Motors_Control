@@ -5127,26 +5127,38 @@ int main() {
    uint8_t press_count=0;
    uint8_t l_led_counter=0;
    uint8_t btn_status=0;
+   uint8_t i=0;
    uint8_t seq_len=8;
     button_initialize(&btn1);
     for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
        led_initialize(&led_array[l_led_counter]);
    }
     while(1){
-
-   for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
+   for(l_led_counter=0;l_led_counter<6;l_led_counter++){
        button_get_status(&btn1,&btn_status);
        if(btn_status==BUTTON_PRESSED){
-       for(press_count=0;press_count<=l_led_counter;press_count++){
+           if(l_led_counter==4){
+              for(i=0;i<4;i++){
+                  led_turn_on(&led_array[i]);
+              }
 
+           }
+           if(l_led_counter==5){
+              for(i=0;i<4;i++){
+                  led_turn_off(&led_array[i]);
+              }
+
+           }
+
+       for(press_count=0;press_count<=l_led_counter;press_count++){
                led_turn_on(&led_array[l_led_counter]);
-               _delay((unsigned long)((500)*(8000000UL/4000.0)));
+               _delay((unsigned long)((250)*(8000000UL/4000.0)));
                led_turn_off(&led_array[l_led_counter]);
-               _delay((unsigned long)((500)*(8000000UL/4000.0)));
+               _delay((unsigned long)((250)*(8000000UL/4000.0)));
 
            }
             }else{
-           led_turn_off(&led_array[l_led_counter]);
+            l_led_counter--;
             }
         }
 
