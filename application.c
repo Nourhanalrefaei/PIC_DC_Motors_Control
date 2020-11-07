@@ -6,66 +6,113 @@
  */
 
 #include "application.h"
+#include "ecu/Relay/ecu_ralay.h"
+#include "ecu/dc_motor/ecu_dc motor.h"
 
-button_t btn1={.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED};
+dc_motor_t motor1;
+dc_motor_t motor2;
+dc_motor_t motor3;
+dc_motor_t motor4;
+button_t btn[4] ={{.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED},
+                  {.port_name=PORTD_INDEX,.pin=PIN1,.button_status=BUTTON_NOT_PRESSED},
+                  {.port_name=PORTD_INDEX,.pin=PIN2,.button_status=BUTTON_NOT_PRESSED},
+                  {.port_name=PORTD_INDEX,.pin=PIN3,.button_status=BUTTON_NOT_PRESSED}};
+uint8_t btn_status[4]={0,0,0,0};
+uint8_t i=ZERO_INIT;
 
-
-
-led_t led_array[led_sequence_number]={
-    {.port_name=PORTC_INDEX,.pin=PIN0,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN1,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN2,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN3,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN4,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN5,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN6,.led_status=LED_OFF},
-    {.port_name=PORTC_INDEX,.pin=PIN7,.led_status=LED_OFF}
-};
-
-
+void robot_move_forward(void);
+void robot_move_backward(void);
+void robot_move_right(void);
+void robot_move_left(void);
+void robot_stop(void);
 
 int main() {
-   uint8_t press_count=ZERO_INIT;
-   uint8_t l_led_counter=ZERO_INIT;
-   uint8_t btn_status=ZERO_INIT;
-   uint8_t i=ZERO_INIT;
-   uint8_t seq_len=8;
-    button_initialize(&btn1);
-    for(l_led_counter=ZERO_INIT;l_led_counter<seq_len;l_led_counter++){
-       led_initialize(&led_array[l_led_counter]);
-   }
-    while(1){
-   for(l_led_counter=ZERO_INIT;l_led_counter<6;l_led_counter++){
-       button_get_status(&btn1,&btn_status);
-       if(btn_status==BUTTON_PRESSED){
-           if(l_led_counter==4){
-              for(i=ZERO_INIT;i<4;i++){
-                  led_turn_on(&led_array[i]);
-              }     
-              
-           }
-           if(l_led_counter==5){
-              for(i=ZERO_INIT;i<4;i++){
-                  led_turn_off(&led_array[i]);
-              }
-              
-           }
-           
-       for(press_count=ZERO_INIT;press_count<=l_led_counter;press_count++){
-               led_turn_on(&led_array[l_led_counter]);
-               __delay_ms(250);
-               led_turn_off(&led_array[l_led_counter]);
-               __delay_ms(250);
-           
-           }
-            }else{
-            l_led_counter--;
-            }
-        }
    
+    motor1.relay1.port_name=PORTC_INDEX;
+    motor1.relay1.pin=PIN0;
+    motor1.relay1.relay_status=RELAY_OFF;
+    motor1.relay2.port_name=PORTC_INDEX;
+    motor1.relay2.pin=PIN1;
+    motor1.relay2.relay_status=RELAY_OFF;
+    dc_motor_initialize(&motor1);
+    
+    motor2.relay1.port_name=PORTC_INDEX;
+    motor2.relay1.pin=PIN2;
+    motor2.relay1.relay_status=RELAY_OFF;
+    motor2.relay2.port_name=PORTC_INDEX;
+    motor2.relay2.pin=PIN3;
+    motor2.relay2.relay_status=RELAY_OFF;
+    dc_motor_initialize(&motor2);
+    
+    motor3.relay1.port_name=PORTC_INDEX;
+    motor3.relay1.pin=PIN4;
+    motor3.relay1.relay_status=RELAY_OFF;
+    motor3.relay2.port_name=PORTC_INDEX;
+    motor3.relay2.pin=PIN5;
+    motor3.relay2.relay_status=RELAY_OFF;
+    dc_motor_initialize(&motor3);
+    
+    motor4.relay1.port_name=PORTC_INDEX;
+    motor4.relay1.pin=PIN6;
+    motor4.relay1.relay_status=RELAY_OFF;
+    motor4.relay2.port_name=PORTC_INDEX;
+    motor4.relay2.pin=PIN7;
+    motor4.relay2.relay_status=RELAY_OFF;
+    dc_motor_initialize(&motor4);
+    for(i=ZERO_INIT;i<4;i++){
+        button_initialize(&btn[i]);
     }
+   while(1){
+       for(i=ZERO_INIT;i<4;i++){
+        button_get_status(&btn[i],&btn_status[i]);
+    }
+       
+       if(btn_status[0]==BUTTON_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED&& btn_status[2]==BUTTON_NOT_PRESSED&& btn_status[3]==BUTTON_NOT_PRESSED){
+           robot_move_forward();
+       }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_PRESSED &&btn_status[2]==BUTTON_NOT_PRESSED && btn_status[3]==BUTTON_NOT_PRESSED){
+          robot_move_backward(); 
+       }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED &&btn_status[2]==BUTTON_PRESSED && btn_status[3]==BUTTON_NOT_PRESSED){
+           robot_move_right();
+       }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED &&btn_status[2]==BUTTON_NOT_PRESSED && btn_status[3]==BUTTON_PRESSED){
+           robot_move_left();
+       }
+       else{
+          robot_stop(); 
+       }
+       
+   }
     return (EXIT_SUCCESS);
 }
 
-
+void robot_move_forward(void){
+    dc_motor_rotate_right(&motor1);
+    dc_motor_rotate_right(&motor2);
+    dc_motor_rotate_right(&motor3);
+    dc_motor_rotate_right(&motor4);
+}
+void robot_move_backward(void){
+    dc_motor_rotate_left(&motor1);
+    dc_motor_rotate_left(&motor2);
+    dc_motor_rotate_left(&motor3);
+    dc_motor_rotate_left(&motor4);
+}
+void robot_move_right(void){
+    dc_motor_stop(&motor1);
+    dc_motor_rotate_right(&motor2);
+    dc_motor_rotate_right(&motor3);
+    dc_motor_stop(&motor4);
+}
+void robot_move_left(void){
+    dc_motor_rotate_left(&motor1);
+    dc_motor_stop(&motor2);
+    dc_motor_stop(&motor3);
+    dc_motor_rotate_left(&motor4);
+}
+void robot_stop(void){
+    dc_motor_stop(&motor1);
+    dc_motor_stop(&motor2);
+    dc_motor_stop(&motor3);
+    dc_motor_stop(&motor4);
+    __delay_ms(100);
+}
 

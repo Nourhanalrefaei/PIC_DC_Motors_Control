@@ -5,4 +5,6 @@ device_config.h  \
 std_types.h  \
 ecu/led/ecu_led.h  \
 ecu/led/../../mcal/gpio/mcal_gpio.h  \
-ecu/button/ecu_button.h 
+ecu/button/ecu_button.h  \
+ecu/Relay/ecu_ralay.h  \
+ecu/dc_motor/ecu_dc\ motor.h 

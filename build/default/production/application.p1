@@ -1,44 +1,65 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"16 ./ecu/dc_motor/../Relay/ecu_ralay.h
+[s S307 :4 `uc 1 :3 `uc 1 :1 `uc 1 ]
+[n S307 . port_name pin relay_status ]
+"11 ./ecu/dc_motor/ecu_dc motor.h
+[; ;./ecu/dc_motor/ecu_dc motor.h: 11: typedef struct{
+[s S308 `S307 1 `S307 1 ]
+[n S308 . relay1 relay2 ]
 "16 ./ecu/button/ecu_button.h
 [; ;./ecu/button/ecu_button.h: 16: typedef struct{
 [s S306 :4 `uc 1 :3 `uc 1 :1 `uc 1 ]
 [n S306 . port_name pin button_status ]
-"10 application.c
-[; ;application.c: 10: button_t btn1={.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED};
+"16 application.c
+[; ;application.c: 16: button_t btn[4] ={{.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED},
 [c E3028 0 1 2 3 4 .. ]
 [n E3028 . PORTA_INDEX PORTB_INDEX PORTC_INDEX PORTD_INDEX PORTE_INDEX  ]
 [c E3010 0 1 2 3 4 5 6 7 .. ]
 [n E3010 . PIN0 PIN1 PIN2 PIN3 PIN4 PIN5 PIN6 PIN7  ]
 [c E3087 0 1 .. ]
 [n E3087 . BUTTON_NOT_PRESSED BUTTON_PRESSED  ]
-"19 ./ecu/led/ecu_led.h
-[; ;./ecu/led/ecu_led.h: 19: typedef struct{
-[s S305 :4 `uc 1 :3 `uc 1 :1 `uc 1 ]
-[n S305 . port_name pin led_status ]
-"14 application.c
-[; ;application.c: 14: led_t led_array[8U]={
-[c E3070 0 1 .. ]
-[n E3070 . LED_OFF LED_ON  ]
 [p mainexit ]
 "33
-[; ;application.c: 33:     button_initialize(&btn1);
+[; ;application.c: 33:     motor1.relay1.relay_status=RELAY_OFF;
+[c E3101 0 1 .. ]
+[n E3101 . RELAY_OFF RELAY_ON  ]
+"37
+[; ;application.c: 37:     dc_motor_initialize(&motor1);
 [c E3006 0 1 .. ]
 [n E3006 . R_NOK R_OK  ]
+"16 ./ecu/dc_motor/ecu_dc motor.h
+[; ;./ecu/dc_motor/ecu_dc motor.h: 16: ret_status dc_motor_initialize(dc_motor_t *dc_mtor);
+[v _dc_motor_initialize `(E3006 ~T0 @X0 0 ef1`*S308 ]
 "23 ./ecu/button/ecu_button.h
 [; ;./ecu/button/ecu_button.h: 23: ret_status button_initialize(button_t *btn);
 [v _button_initialize `(E3006 ~T0 @X0 0 ef1`*S306 ]
-"33 ./ecu/led/ecu_led.h
-[; ;./ecu/led/ecu_led.h: 33: ret_status led_initialize(led_t *led);
-[v _led_initialize `(E3006 ~T0 @X0 0 ef1`*S305 ]
-"24 ./ecu/button/ecu_button.h
+"24
 [; ;./ecu/button/ecu_button.h: 24: ret_status button_get_status(button_t *btn, button_status *btn_status);
 [v _button_get_status `(E3006 ~T0 @X0 0 ef2`*S306`*E3087 ]
-"41 ./ecu/led/ecu_led.h
-[; ;./ecu/led/ecu_led.h: 41: ret_status led_turn_on(led_t *led);
-[v _led_turn_on `(E3006 ~T0 @X0 0 ef1`*S305 ]
-"49
-[; ;./ecu/led/ecu_led.h: 49: ret_status led_turn_off(led_t *led);
-[v _led_turn_off `(E3006 ~T0 @X0 0 ef1`*S305 ]
+"23 application.c
+[; ;application.c: 23: void robot_move_forward(void);
+[v _robot_move_forward `(v ~T0 @X0 0 ef ]
+"24
+[; ;application.c: 24: void robot_move_backward(void);
+[v _robot_move_backward `(v ~T0 @X0 0 ef ]
+"25
+[; ;application.c: 25: void robot_move_right(void);
+[v _robot_move_right `(v ~T0 @X0 0 ef ]
+"26
+[; ;application.c: 26: void robot_move_left(void);
+[v _robot_move_left `(v ~T0 @X0 0 ef ]
+"27
+[; ;application.c: 27: void robot_stop(void);
+[v _robot_stop `(v ~T0 @X0 0 ef ]
+"17 ./ecu/dc_motor/ecu_dc motor.h
+[; ;./ecu/dc_motor/ecu_dc motor.h: 17: ret_status dc_motor_rotate_right(dc_motor_t *dc_mtor);
+[v _dc_motor_rotate_right `(E3006 ~T0 @X0 0 ef1`*S308 ]
+"18
+[; ;./ecu/dc_motor/ecu_dc motor.h: 18: ret_status dc_motor_rotate_left(dc_motor_t *dc_mtor);
+[v _dc_motor_rotate_left `(E3006 ~T0 @X0 0 ef1`*S308 ]
+"19
+[; ;./ecu/dc_motor/ecu_dc motor.h: 19: ret_status dc_motor_stop(dc_motor_t *dc_mtor);
+[v _dc_motor_stop `(E3006 ~T0 @X0 0 ef1`*S308 ]
 [v F2991 `(v ~T0 @X0 1 tf1`ul ]
 "203 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC18F-K_DFP/1.4.87/xc8\pic\include\pic18.h
 [v __delay `JF2991 ~T0 @X0 0 e ]
@@ -484,242 +505,372 @@ Version 4.0 HI-TECH Software Intermediate Code
 "7352
 [; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC18F-K_DFP/1.4.87/xc8\pic\include\proc\pic18f46k20.h: 7352: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"10 application.c
-[; ;application.c: 10: button_t btn1={.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED};
-[v _btn1 `S306 ~T0 @X0 1 e ]
-[i _btn1
+"12 application.c
+[; ;application.c: 12: dc_motor_t motor1;
+[v _motor1 `S308 ~T0 @X0 1 e ]
+"13
+[; ;application.c: 13: dc_motor_t motor2;
+[v _motor2 `S308 ~T0 @X0 1 e ]
+"14
+[; ;application.c: 14: dc_motor_t motor3;
+[v _motor3 `S308 ~T0 @X0 1 e ]
+"15
+[; ;application.c: 15: dc_motor_t motor4;
+[v _motor4 `S308 ~T0 @X0 1 e ]
+"16
+[; ;application.c: 16: button_t btn[4] ={{.port_name=PORTD_INDEX,.pin=PIN0,.button_status=BUTTON_NOT_PRESSED},
+[v _btn `S306 ~T0 @X0 -> 4 `i e ]
+[i _btn
 :U ..
 :U ..
 -> . `E3028 3 `uc
 -> . `E3010 0 `uc
 -> . `E3087 0 `uc
 ..
+:U ..
+-> . `E3028 3 `uc
+-> . `E3010 1 `uc
+-> . `E3087 0 `uc
+..
+:U ..
+-> . `E3028 3 `uc
+-> . `E3010 2 `uc
+-> . `E3087 0 `uc
+..
+:U ..
+-> . `E3028 3 `uc
+-> . `E3010 3 `uc
+-> . `E3087 0 `uc
+..
 ..
 ]
-"14
-[; ;application.c: 14: led_t led_array[8U]={
-[v _led_array `S305 ~T0 @X0 -> 8 `i e ]
-[i _led_array
+"20
+[; ;application.c: 20: uint8_t btn_status[4]={0,0,0,0};
+[v _btn_status `uc ~T0 @X0 -> 4 `i e ]
+[i _btn_status
 :U ..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 0 `uc
--> . `E3070 0 `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
+-> -> 0 `i `uc
 ..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 1 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 2 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 3 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 4 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 5 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 6 `uc
--> . `E3070 0 `uc
-..
-:U ..
--> . `E3028 2 `uc
--> . `E3010 7 `uc
--> . `E3070 0 `uc
-..
-..
+]
+"21
+[; ;application.c: 21: uint8_t i=0;
+[v _i `uc ~T0 @X0 1 e ]
+[i _i
+-> -> 0 `i `uc
 ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"27
-[; ;application.c: 27: int main() {
+"29
+[; ;application.c: 29: int main() {
 [v _main `(i ~T0 @X0 1 ef ]
 {
 [e :U _main ]
 [f ]
-"28
-[; ;application.c: 28:    uint8_t press_count=0;
-[v _press_count `uc ~T0 @X0 1 a ]
-[e = _press_count -> -> 0 `i `uc ]
-"29
-[; ;application.c: 29:    uint8_t l_led_counter=0;
-[v _l_led_counter `uc ~T0 @X0 1 a ]
-[e = _l_led_counter -> -> 0 `i `uc ]
-"30
-[; ;application.c: 30:    uint8_t btn_status=0;
-[v _btn_status `uc ~T0 @X0 1 a ]
-[e = _btn_status -> -> 0 `i `uc ]
 "31
-[; ;application.c: 31:    uint8_t i=0;
-[v _i `uc ~T0 @X0 1 a ]
-[e = _i -> -> 0 `i `uc ]
+[; ;application.c: 31:     motor1.relay1.port_name=PORTC_INDEX;
+[e = . . _motor1 0 0 -> . `E3028 2 `uc ]
 "32
-[; ;application.c: 32:    uint8_t seq_len=8;
-[v _seq_len `uc ~T0 @X0 1 a ]
-[e = _seq_len -> -> 8 `i `uc ]
+[; ;application.c: 32:     motor1.relay1.pin=PIN0;
+[e = . . _motor1 0 1 -> . `E3010 0 `uc ]
 "33
-[; ;application.c: 33:     button_initialize(&btn1);
-[e ( _button_initialize (1 &U _btn1 ]
+[; ;application.c: 33:     motor1.relay1.relay_status=RELAY_OFF;
+[e = . . _motor1 0 2 -> . `E3101 0 `uc ]
 "34
-[; ;application.c: 34:     for(l_led_counter=0;l_led_counter<seq_len;l_led_counter++){
-{
-[e = _l_led_counter -> -> 0 `i `uc ]
-[e $U 311  ]
-[e :U 308 ]
-{
+[; ;application.c: 34:     motor1.relay2.port_name=PORTC_INDEX;
+[e = . . _motor1 1 0 -> . `E3028 2 `uc ]
 "35
-[; ;application.c: 35:        led_initialize(&led_array[l_led_counter]);
-[e ( _led_initialize (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
+[; ;application.c: 35:     motor1.relay2.pin=PIN1;
+[e = . . _motor1 1 1 -> . `E3010 1 `uc ]
 "36
-[; ;application.c: 36:    }
-}
-[e ++ _l_led_counter -> -> 1 `i `uc ]
-[e :U 311 ]
-[e $ < -> _l_led_counter `i -> _seq_len `i 308  ]
-[e :U 309 ]
-}
+[; ;application.c: 36:     motor1.relay2.relay_status=RELAY_OFF;
+[e = . . _motor1 1 2 -> . `E3101 0 `uc ]
 "37
-[; ;application.c: 37:     while(1){
-[e :U 313 ]
-{
-"38
-[; ;application.c: 38:    for(l_led_counter=0;l_led_counter<6;l_led_counter++){
-{
-[e = _l_led_counter -> -> 0 `i `uc ]
-[e $ < -> _l_led_counter `i -> 6 `i 315  ]
-[e $U 316  ]
-[e :U 315 ]
-{
+[; ;application.c: 37:     dc_motor_initialize(&motor1);
+[e ( _dc_motor_initialize (1 &U _motor1 ]
 "39
-[; ;application.c: 39:        button_get_status(&btn1,&btn_status);
-[e ( _button_get_status (2 , &U _btn1 -> &U _btn_status `*E3087 ]
+[; ;application.c: 39:     motor2.relay1.port_name=PORTC_INDEX;
+[e = . . _motor2 0 0 -> . `E3028 2 `uc ]
 "40
-[; ;application.c: 40:        if(btn_status==BUTTON_PRESSED){
-[e $ ! == -> _btn_status `i -> . `E3087 1 `i 318  ]
-{
+[; ;application.c: 40:     motor2.relay1.pin=PIN2;
+[e = . . _motor2 0 1 -> . `E3010 2 `uc ]
 "41
-[; ;application.c: 41:            if(l_led_counter==4){
-[e $ ! == -> _l_led_counter `i -> 4 `i 319  ]
-{
+[; ;application.c: 41:     motor2.relay1.relay_status=RELAY_OFF;
+[e = . . _motor2 0 2 -> . `E3101 0 `uc ]
 "42
-[; ;application.c: 42:               for(i=0;i<4;i++){
-{
-[e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 4 `i 320  ]
-[e $U 321  ]
-[e :U 320 ]
-{
+[; ;application.c: 42:     motor2.relay2.port_name=PORTC_INDEX;
+[e = . . _motor2 1 0 -> . `E3028 2 `uc ]
 "43
-[; ;application.c: 43:                   led_turn_on(&led_array[i]);
-[e ( _led_turn_on (1 &U *U + &U _led_array * -> _i `ux -> -> # *U &U _led_array `ui `ux ]
+[; ;application.c: 43:     motor2.relay2.pin=PIN3;
+[e = . . _motor2 1 1 -> . `E3010 3 `uc ]
 "44
-[; ;application.c: 44:               }
-}
-[e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 4 `i 320  ]
-[e :U 321 ]
-}
-"46
-[; ;application.c: 46:            }
-}
-[e :U 319 ]
+[; ;application.c: 44:     motor2.relay2.relay_status=RELAY_OFF;
+[e = . . _motor2 1 2 -> . `E3101 0 `uc ]
+"45
+[; ;application.c: 45:     dc_motor_initialize(&motor2);
+[e ( _dc_motor_initialize (1 &U _motor2 ]
 "47
-[; ;application.c: 47:            if(l_led_counter==5){
-[e $ ! == -> _l_led_counter `i -> 5 `i 323  ]
-{
+[; ;application.c: 47:     motor3.relay1.port_name=PORTC_INDEX;
+[e = . . _motor3 0 0 -> . `E3028 2 `uc ]
 "48
-[; ;application.c: 48:               for(i=0;i<4;i++){
+[; ;application.c: 48:     motor3.relay1.pin=PIN4;
+[e = . . _motor3 0 1 -> . `E3010 4 `uc ]
+"49
+[; ;application.c: 49:     motor3.relay1.relay_status=RELAY_OFF;
+[e = . . _motor3 0 2 -> . `E3101 0 `uc ]
+"50
+[; ;application.c: 50:     motor3.relay2.port_name=PORTC_INDEX;
+[e = . . _motor3 1 0 -> . `E3028 2 `uc ]
+"51
+[; ;application.c: 51:     motor3.relay2.pin=PIN5;
+[e = . . _motor3 1 1 -> . `E3010 5 `uc ]
+"52
+[; ;application.c: 52:     motor3.relay2.relay_status=RELAY_OFF;
+[e = . . _motor3 1 2 -> . `E3101 0 `uc ]
+"53
+[; ;application.c: 53:     dc_motor_initialize(&motor3);
+[e ( _dc_motor_initialize (1 &U _motor3 ]
+"55
+[; ;application.c: 55:     motor4.relay1.port_name=PORTC_INDEX;
+[e = . . _motor4 0 0 -> . `E3028 2 `uc ]
+"56
+[; ;application.c: 56:     motor4.relay1.pin=PIN6;
+[e = . . _motor4 0 1 -> . `E3010 6 `uc ]
+"57
+[; ;application.c: 57:     motor4.relay1.relay_status=RELAY_OFF;
+[e = . . _motor4 0 2 -> . `E3101 0 `uc ]
+"58
+[; ;application.c: 58:     motor4.relay2.port_name=PORTC_INDEX;
+[e = . . _motor4 1 0 -> . `E3028 2 `uc ]
+"59
+[; ;application.c: 59:     motor4.relay2.pin=PIN7;
+[e = . . _motor4 1 1 -> . `E3010 7 `uc ]
+"60
+[; ;application.c: 60:     motor4.relay2.relay_status=RELAY_OFF;
+[e = . . _motor4 1 2 -> . `E3101 0 `uc ]
+"61
+[; ;application.c: 61:     dc_motor_initialize(&motor4);
+[e ( _dc_motor_initialize (1 &U _motor4 ]
+"62
+[; ;application.c: 62:     for(i=0;i<4;i++){
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 4 `i 324  ]
-[e $U 325  ]
-[e :U 324 ]
+[e $ < -> _i `i -> 4 `i 310  ]
+[e $U 311  ]
+[e :U 310 ]
 {
-"49
-[; ;application.c: 49:                   led_turn_off(&led_array[i]);
-[e ( _led_turn_off (1 &U *U + &U _led_array * -> _i `ux -> -> # *U &U _led_array `ui `ux ]
-"50
-[; ;application.c: 50:               }
+"63
+[; ;application.c: 63:         button_initialize(&btn[i]);
+[e ( _button_initialize (1 &U *U + &U _btn * -> _i `ux -> -> # *U &U _btn `ui `ux ]
+"64
+[; ;application.c: 64:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 4 `i 324  ]
-[e :U 325 ]
+[e $ < -> _i `i -> 4 `i 310  ]
+[e :U 311 ]
 }
-"52
-[; ;application.c: 52:            }
-}
-[e :U 323 ]
-"54
-[; ;application.c: 54:        for(press_count=0;press_count<=l_led_counter;press_count++){
-{
-[e = _press_count -> -> 0 `i `uc ]
-[e $U 330  ]
-[e :U 327 ]
-{
-"55
-[; ;application.c: 55:                led_turn_on(&led_array[l_led_counter]);
-[e ( _led_turn_on (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
-"56
-[; ;application.c: 56:                _delay((unsigned long)((250)*(8000000UL/4000.0)));
-[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
-"57
-[; ;application.c: 57:                led_turn_off(&led_array[l_led_counter]);
-[e ( _led_turn_off (1 &U *U + &U _led_array * -> _l_led_counter `ux -> -> # *U &U _led_array `ui `ux ]
-"58
-[; ;application.c: 58:                _delay((unsigned long)((250)*(8000000UL/4000.0)));
-[e ( __delay (1 -> * -> -> 250 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
-"60
-[; ;application.c: 60:            }
-}
-[e ++ _press_count -> -> 1 `i `uc ]
-[e :U 330 ]
-[e $ <= -> _press_count `i -> _l_led_counter `i 327  ]
-[e :U 328 ]
-}
-"61
-[; ;application.c: 61:             }else{
-}
-[e $U 331  ]
-[e :U 318 ]
-{
-"62
-[; ;application.c: 62:             l_led_counter--;
-[e -- _l_led_counter -> -> 1 `i `uc ]
-"63
-[; ;application.c: 63:             }
-}
-[e :U 331 ]
-"64
-[; ;application.c: 64:         }
-}
-[e ++ _l_led_counter -> -> 1 `i `uc ]
-[e $ < -> _l_led_counter `i -> 6 `i 315  ]
-[e :U 316 ]
-}
-"66
-[; ;application.c: 66:     }
-}
-[e :U 312 ]
-[e $U 313  ]
+"65
+[; ;application.c: 65:    while(1){
 [e :U 314 ]
+{
+"66
+[; ;application.c: 66:        for(i=0;i<4;i++){
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i -> 4 `i 316  ]
+[e $U 317  ]
+[e :U 316 ]
+{
 "67
-[; ;application.c: 67:     return (0);
-[e ) -> 0 `i ]
-[e $UE 307  ]
+[; ;application.c: 67:         button_get_status(&btn[i],&btn_status[i]);
+[e ( _button_get_status (2 , &U *U + &U _btn * -> _i `ux -> -> # *U &U _btn `ui `ux -> &U *U + &U _btn_status * -> _i `ux -> -> # *U &U _btn_status `ui `ux `*E3087 ]
 "68
-[; ;application.c: 68: }
-[e :UE 307 ]
+[; ;application.c: 68:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i -> 4 `i 316  ]
+[e :U 317 ]
+}
+"70
+[; ;application.c: 70:        if(btn_status[0]==BUTTON_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED&& btn_status[2]==BUTTON_NOT_PRESSED&& btn_status[3]==BUTTON_NOT_PRESSED){
+[e $ ! && && && == -> *U + &U _btn_status * -> -> -> 0 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 1 `i == -> *U + &U _btn_status * -> -> -> 1 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 2 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 3 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i 319  ]
+{
+"71
+[; ;application.c: 71:            robot_move_forward();
+[e ( _robot_move_forward ..  ]
+"72
+[; ;application.c: 72:        }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_PRESSED &&btn_status[2]==BUTTON_NOT_PRESSED && btn_status[3]==BUTTON_NOT_PRESSED){
+}
+[e $U 320  ]
+[e :U 319 ]
+[e $ ! && && && == -> *U + &U _btn_status * -> -> -> 0 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 1 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 1 `i == -> *U + &U _btn_status * -> -> -> 2 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 3 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i 321  ]
+{
+"73
+[; ;application.c: 73:           robot_move_backward();
+[e ( _robot_move_backward ..  ]
+"74
+[; ;application.c: 74:        }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED &&btn_status[2]==BUTTON_PRESSED && btn_status[3]==BUTTON_NOT_PRESSED){
+}
+[e $U 322  ]
+[e :U 321 ]
+[e $ ! && && && == -> *U + &U _btn_status * -> -> -> 0 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 1 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 2 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 1 `i == -> *U + &U _btn_status * -> -> -> 3 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i 323  ]
+{
+"75
+[; ;application.c: 75:            robot_move_right();
+[e ( _robot_move_right ..  ]
+"76
+[; ;application.c: 76:        }else if(btn_status[0]==BUTTON_NOT_PRESSED && btn_status[1]==BUTTON_NOT_PRESSED &&btn_status[2]==BUTTON_NOT_PRESSED && btn_status[3]==BUTTON_PRESSED){
+}
+[e $U 324  ]
+[e :U 323 ]
+[e $ ! && && && == -> *U + &U _btn_status * -> -> -> 0 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 1 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 2 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 0 `i == -> *U + &U _btn_status * -> -> -> 3 `i `ui `ux -> -> # *U &U _btn_status `ui `ux `i -> . `E3087 1 `i 325  ]
+{
+"77
+[; ;application.c: 77:            robot_move_left();
+[e ( _robot_move_left ..  ]
+"78
+[; ;application.c: 78:        }
+}
+[e $U 326  ]
+"79
+[; ;application.c: 79:        else{
+[e :U 325 ]
+{
+"80
+[; ;application.c: 80:           robot_stop();
+[e ( _robot_stop ..  ]
+"81
+[; ;application.c: 81:        }
+}
+[e :U 326 ]
+[e :U 324 ]
+[e :U 322 ]
+[e :U 320 ]
+"83
+[; ;application.c: 83:    }
+}
+[e :U 313 ]
+[e $U 314  ]
+[e :U 315 ]
+"84
+[; ;application.c: 84:     return (0);
+[e ) -> 0 `i ]
+[e $UE 309  ]
+"85
+[; ;application.c: 85: }
+[e :UE 309 ]
+}
+"87
+[; ;application.c: 87: void robot_move_forward(void){
+[v _robot_move_forward `(v ~T0 @X0 1 ef ]
+{
+[e :U _robot_move_forward ]
+[f ]
+"88
+[; ;application.c: 88:     dc_motor_rotate_right(&motor1);
+[e ( _dc_motor_rotate_right (1 &U _motor1 ]
+"89
+[; ;application.c: 89:     dc_motor_rotate_right(&motor2);
+[e ( _dc_motor_rotate_right (1 &U _motor2 ]
+"90
+[; ;application.c: 90:     dc_motor_rotate_right(&motor3);
+[e ( _dc_motor_rotate_right (1 &U _motor3 ]
+"91
+[; ;application.c: 91:     dc_motor_rotate_right(&motor4);
+[e ( _dc_motor_rotate_right (1 &U _motor4 ]
+"92
+[; ;application.c: 92: }
+[e :UE 327 ]
+}
+"93
+[; ;application.c: 93: void robot_move_backward(void){
+[v _robot_move_backward `(v ~T0 @X0 1 ef ]
+{
+[e :U _robot_move_backward ]
+[f ]
+"94
+[; ;application.c: 94:     dc_motor_rotate_left(&motor1);
+[e ( _dc_motor_rotate_left (1 &U _motor1 ]
+"95
+[; ;application.c: 95:     dc_motor_rotate_left(&motor2);
+[e ( _dc_motor_rotate_left (1 &U _motor2 ]
+"96
+[; ;application.c: 96:     dc_motor_rotate_left(&motor3);
+[e ( _dc_motor_rotate_left (1 &U _motor3 ]
+"97
+[; ;application.c: 97:     dc_motor_rotate_left(&motor4);
+[e ( _dc_motor_rotate_left (1 &U _motor4 ]
+"98
+[; ;application.c: 98: }
+[e :UE 328 ]
+}
+"99
+[; ;application.c: 99: void robot_move_right(void){
+[v _robot_move_right `(v ~T0 @X0 1 ef ]
+{
+[e :U _robot_move_right ]
+[f ]
+"100
+[; ;application.c: 100:     dc_motor_stop(&motor1);
+[e ( _dc_motor_stop (1 &U _motor1 ]
+"101
+[; ;application.c: 101:     dc_motor_rotate_right(&motor2);
+[e ( _dc_motor_rotate_right (1 &U _motor2 ]
+"102
+[; ;application.c: 102:     dc_motor_rotate_right(&motor3);
+[e ( _dc_motor_rotate_right (1 &U _motor3 ]
+"103
+[; ;application.c: 103:     dc_motor_stop(&motor4);
+[e ( _dc_motor_stop (1 &U _motor4 ]
+"104
+[; ;application.c: 104: }
+[e :UE 329 ]
+}
+"105
+[; ;application.c: 105: void robot_move_left(void){
+[v _robot_move_left `(v ~T0 @X0 1 ef ]
+{
+[e :U _robot_move_left ]
+[f ]
+"106
+[; ;application.c: 106:     dc_motor_rotate_left(&motor1);
+[e ( _dc_motor_rotate_left (1 &U _motor1 ]
+"107
+[; ;application.c: 107:     dc_motor_stop(&motor2);
+[e ( _dc_motor_stop (1 &U _motor2 ]
+"108
+[; ;application.c: 108:     dc_motor_stop(&motor3);
+[e ( _dc_motor_stop (1 &U _motor3 ]
+"109
+[; ;application.c: 109:     dc_motor_rotate_left(&motor4);
+[e ( _dc_motor_rotate_left (1 &U _motor4 ]
+"110
+[; ;application.c: 110: }
+[e :UE 330 ]
+}
+"111
+[; ;application.c: 111: void robot_stop(void){
+[v _robot_stop `(v ~T0 @X0 1 ef ]
+{
+[e :U _robot_stop ]
+[f ]
+"112
+[; ;application.c: 112:     dc_motor_stop(&motor1);
+[e ( _dc_motor_stop (1 &U _motor1 ]
+"113
+[; ;application.c: 113:     dc_motor_stop(&motor2);
+[e ( _dc_motor_stop (1 &U _motor2 ]
+"114
+[; ;application.c: 114:     dc_motor_stop(&motor3);
+[e ( _dc_motor_stop (1 &U _motor3 ]
+"115
+[; ;application.c: 115:     dc_motor_stop(&motor4);
+[e ( _dc_motor_stop (1 &U _motor4 ]
+"116
+[; ;application.c: 116:     _delay((unsigned long)((100)*(8000000UL/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 8000000 `ul `d .4000.0 `ul ]
+"117
+[; ;application.c: 117: }
+[e :UE 331 ]
 }

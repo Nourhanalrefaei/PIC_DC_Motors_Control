@@ -8,8 +8,14 @@
         <logicalFolder name="button" displayName="button" projectFiles="true">
           <itemPath>ecu/button/ecu_button.h</itemPath>
         </logicalFolder>
+        <logicalFolder name="dc_motor" displayName="dc_motor" projectFiles="true">
+          <itemPath>ecu/dc_motor/ecu_dc motor.h</itemPath>
+        </logicalFolder>
         <logicalFolder name="led" displayName="led" projectFiles="true">
           <itemPath>ecu/led/ecu_led.h</itemPath>
+        </logicalFolder>
+        <logicalFolder name="Relay" displayName="Relay" projectFiles="true">
+          <itemPath>ecu/Relay/ecu_ralay.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="mcal" displayName="mcal" projectFiles="true">
@@ -32,8 +38,14 @@
         <logicalFolder name="button" displayName="button" projectFiles="true">
           <itemPath>ecu/button/ecu_button.c</itemPath>
         </logicalFolder>
+        <logicalFolder name="dc_motor" displayName="dc_motor" projectFiles="true">
+          <itemPath>ecu/dc_motor/ecu_dc motor.c</itemPath>
+        </logicalFolder>
         <logicalFolder name="led" displayName="led" projectFiles="true">
           <itemPath>ecu/led/ecu_led.c</itemPath>
+        </logicalFolder>
+        <logicalFolder name="Relay" displayName="Relay" projectFiles="true">
+          <itemPath>ecu/Relay/ecu_ralay.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="mcal" displayName="mcal" projectFiles="true">

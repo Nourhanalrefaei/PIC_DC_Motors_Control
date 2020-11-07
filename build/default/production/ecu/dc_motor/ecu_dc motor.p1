@@ -1,0 +1,214 @@
+Version 4.0 HI-TECH Software Intermediate Code
+"16 ecu/dc_motor/../Relay/ecu_ralay.h
+[; ;ecu/dc_motor/../Relay/ecu_ralay.h: 16: typedef struct{
+[s S1 :4 `uc 1 :3 `uc 1 :1 `uc 1 ]
+[n S1 . port_name pin relay_status ]
+"11 ecu/dc_motor/ecu_dc motor.h
+[; ;ecu/dc_motor/ecu_dc motor.h: 11: typedef struct{
+[s S2 `S1 1 `S1 1 ]
+[n S2 . relay1 relay2 ]
+"10 ecu/dc_motor/ecu_dc motor.c
+[; ;ecu/dc_motor/ecu_dc motor.c: 10: ret_status dc_motor_initialize(dc_motor_t *dc_mtor){
+[c E13 0 1 .. ]
+[n E13 . R_NOK R_OK  ]
+"22 ecu/dc_motor/../Relay/ecu_ralay.h
+[; ;ecu/dc_motor/../Relay/ecu_ralay.h: 22: ret_status relay_initialize(relay_t *relay);
+[v _relay_initialize `(E13 ~T0 @X0 0 ef1`*S1 ]
+"23
+[; ;ecu/dc_motor/../Relay/ecu_ralay.h: 23: ret_status relay_turn_on(relay_t *relay);
+[v _relay_turn_on `(E13 ~T0 @X0 0 ef1`*S1 ]
+"24
+[; ;ecu/dc_motor/../Relay/ecu_ralay.h: 24: ret_status relay_turn_off(relay_t *relay);
+[v _relay_turn_off `(E13 ~T0 @X0 0 ef1`*S1 ]
+"10 ecu/dc_motor/ecu_dc motor.c
+[; ;ecu/dc_motor/ecu_dc motor.c: 10: ret_status dc_motor_initialize(dc_motor_t *dc_mtor){
+[v _dc_motor_initialize `(E13 ~T0 @X0 1 ef1`*S2 ]
+{
+[e :U _dc_motor_initialize ]
+[v _dc_mtor `*S2 ~T0 @X0 1 r1 ]
+[f ]
+"11
+[; ;ecu/dc_motor/ecu_dc motor.c: 11:     ret_status ret = R_NOK;
+[v _ret `E13 ~T0 @X0 1 a ]
+[e = _ret . `E13 0 ]
+"12
+[; ;ecu/dc_motor/ecu_dc motor.c: 12:     if(((void*)0) == dc_mtor){
+[e $ ! == -> -> -> 0 `i `*v `*S2 _dc_mtor 4  ]
+{
+"13
+[; ;ecu/dc_motor/ecu_dc motor.c: 13:         return ret;
+[e ) _ret ]
+[e $UE 3  ]
+"14
+[; ;ecu/dc_motor/ecu_dc motor.c: 14:     }
+}
+[e $U 5  ]
+"15
+[; ;ecu/dc_motor/ecu_dc motor.c: 15:     else{
+[e :U 4 ]
+{
+"16
+[; ;ecu/dc_motor/ecu_dc motor.c: 16:         relay_initialize(&(dc_mtor->relay1));
+[e ( _relay_initialize (1 &U . *U _dc_mtor 0 ]
+"17
+[; ;ecu/dc_motor/ecu_dc motor.c: 17:         relay_initialize(&(dc_mtor->relay2));
+[e ( _relay_initialize (1 &U . *U _dc_mtor 1 ]
+"18
+[; ;ecu/dc_motor/ecu_dc motor.c: 18:         ret = R_OK;
+[e = _ret . `E13 1 ]
+"19
+[; ;ecu/dc_motor/ecu_dc motor.c: 19:     }
+}
+[e :U 5 ]
+"20
+[; ;ecu/dc_motor/ecu_dc motor.c: 20:     return ret;
+[e ) _ret ]
+[e $UE 3  ]
+"21
+[; ;ecu/dc_motor/ecu_dc motor.c: 21: }
+[e :UE 3 ]
+}
+"23
+[; ;ecu/dc_motor/ecu_dc motor.c: 23: ret_status dc_motor_rotate_right(dc_motor_t *dc_mtor){
+[v _dc_motor_rotate_right `(E13 ~T0 @X0 1 ef1`*S2 ]
+{
+[e :U _dc_motor_rotate_right ]
+[v _dc_mtor `*S2 ~T0 @X0 1 r1 ]
+[f ]
+"24
+[; ;ecu/dc_motor/ecu_dc motor.c: 24:     ret_status ret = R_NOK;
+[v _ret `E13 ~T0 @X0 1 a ]
+[e = _ret . `E13 0 ]
+"25
+[; ;ecu/dc_motor/ecu_dc motor.c: 25:     if(((void*)0) == dc_mtor){
+[e $ ! == -> -> -> 0 `i `*v `*S2 _dc_mtor 7  ]
+{
+"26
+[; ;ecu/dc_motor/ecu_dc motor.c: 26:         return ret;
+[e ) _ret ]
+[e $UE 6  ]
+"27
+[; ;ecu/dc_motor/ecu_dc motor.c: 27:     }
+}
+[e $U 8  ]
+"28
+[; ;ecu/dc_motor/ecu_dc motor.c: 28:     else{
+[e :U 7 ]
+{
+"29
+[; ;ecu/dc_motor/ecu_dc motor.c: 29:         relay_turn_on(&(dc_mtor->relay1));
+[e ( _relay_turn_on (1 &U . *U _dc_mtor 0 ]
+"30
+[; ;ecu/dc_motor/ecu_dc motor.c: 30:         relay_turn_off(&(dc_mtor->relay2));
+[e ( _relay_turn_off (1 &U . *U _dc_mtor 1 ]
+"31
+[; ;ecu/dc_motor/ecu_dc motor.c: 31:         ret = R_OK;
+[e = _ret . `E13 1 ]
+"32
+[; ;ecu/dc_motor/ecu_dc motor.c: 32:     }
+}
+[e :U 8 ]
+"33
+[; ;ecu/dc_motor/ecu_dc motor.c: 33:     return ret;
+[e ) _ret ]
+[e $UE 6  ]
+"34
+[; ;ecu/dc_motor/ecu_dc motor.c: 34: }
+[e :UE 6 ]
+}
+"36
+[; ;ecu/dc_motor/ecu_dc motor.c: 36: ret_status dc_motor_rotate_left(dc_motor_t *dc_mtor){
+[v _dc_motor_rotate_left `(E13 ~T0 @X0 1 ef1`*S2 ]
+{
+[e :U _dc_motor_rotate_left ]
+[v _dc_mtor `*S2 ~T0 @X0 1 r1 ]
+[f ]
+"37
+[; ;ecu/dc_motor/ecu_dc motor.c: 37:     ret_status ret = R_NOK;
+[v _ret `E13 ~T0 @X0 1 a ]
+[e = _ret . `E13 0 ]
+"38
+[; ;ecu/dc_motor/ecu_dc motor.c: 38:     if(((void*)0) == dc_mtor){
+[e $ ! == -> -> -> 0 `i `*v `*S2 _dc_mtor 10  ]
+{
+"39
+[; ;ecu/dc_motor/ecu_dc motor.c: 39:         return ret;
+[e ) _ret ]
+[e $UE 9  ]
+"40
+[; ;ecu/dc_motor/ecu_dc motor.c: 40:     }
+}
+[e $U 11  ]
+"41
+[; ;ecu/dc_motor/ecu_dc motor.c: 41:     else{
+[e :U 10 ]
+{
+"42
+[; ;ecu/dc_motor/ecu_dc motor.c: 42:         relay_turn_off(&(dc_mtor->relay1));
+[e ( _relay_turn_off (1 &U . *U _dc_mtor 0 ]
+"43
+[; ;ecu/dc_motor/ecu_dc motor.c: 43:         relay_turn_on(&(dc_mtor->relay2));
+[e ( _relay_turn_on (1 &U . *U _dc_mtor 1 ]
+"44
+[; ;ecu/dc_motor/ecu_dc motor.c: 44:         ret = R_OK;
+[e = _ret . `E13 1 ]
+"45
+[; ;ecu/dc_motor/ecu_dc motor.c: 45:     }
+}
+[e :U 11 ]
+"46
+[; ;ecu/dc_motor/ecu_dc motor.c: 46:     return ret;
+[e ) _ret ]
+[e $UE 9  ]
+"47
+[; ;ecu/dc_motor/ecu_dc motor.c: 47: }
+[e :UE 9 ]
+}
+"49
+[; ;ecu/dc_motor/ecu_dc motor.c: 49: ret_status dc_motor_stop(dc_motor_t *dc_mtor){
+[v _dc_motor_stop `(E13 ~T0 @X0 1 ef1`*S2 ]
+{
+[e :U _dc_motor_stop ]
+[v _dc_mtor `*S2 ~T0 @X0 1 r1 ]
+[f ]
+"50
+[; ;ecu/dc_motor/ecu_dc motor.c: 50:     ret_status ret = R_NOK;
+[v _ret `E13 ~T0 @X0 1 a ]
+[e = _ret . `E13 0 ]
+"51
+[; ;ecu/dc_motor/ecu_dc motor.c: 51:     if(((void*)0) == dc_mtor){
+[e $ ! == -> -> -> 0 `i `*v `*S2 _dc_mtor 13  ]
+{
+"52
+[; ;ecu/dc_motor/ecu_dc motor.c: 52:         return ret;
+[e ) _ret ]
+[e $UE 12  ]
+"53
+[; ;ecu/dc_motor/ecu_dc motor.c: 53:     }
+}
+[e $U 14  ]
+"54
+[; ;ecu/dc_motor/ecu_dc motor.c: 54:     else{
+[e :U 13 ]
+{
+"55
+[; ;ecu/dc_motor/ecu_dc motor.c: 55:         relay_turn_off(&(dc_mtor->relay1));
+[e ( _relay_turn_off (1 &U . *U _dc_mtor 0 ]
+"56
+[; ;ecu/dc_motor/ecu_dc motor.c: 56:         relay_turn_off(&(dc_mtor->relay2));
+[e ( _relay_turn_off (1 &U . *U _dc_mtor 1 ]
+"57
+[; ;ecu/dc_motor/ecu_dc motor.c: 57:         ret = R_OK;
+[e = _ret . `E13 1 ]
+"58
+[; ;ecu/dc_motor/ecu_dc motor.c: 58:     }
+}
+[e :U 14 ]
+"59
+[; ;ecu/dc_motor/ecu_dc motor.c: 59:     return ret;
+[e ) _ret ]
+[e $UE 12  ]
+"60
+[; ;ecu/dc_motor/ecu_dc motor.c: 60: }
+[e :UE 12 ]
+}

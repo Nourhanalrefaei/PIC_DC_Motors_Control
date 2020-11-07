@@ -33,7 +33,7 @@
      <ITEM name="Value Column Width">155</ITEM>
      <ITEM name="Version">100</ITEM>
      <ITEM name="Watch Expression Column Width">82</ITEM>
-     <ITEM name="nItems">4</ITEM>
+     <ITEM name="nItems">3</ITEM>
     </PROPERTIES>
    </POPUP>
    <POPUP w="600" x="88" flags="0000002b" y="200" h="400" pid="1" iid="1">
